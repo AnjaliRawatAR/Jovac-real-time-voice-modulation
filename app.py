@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate, migrate
+from voice_modulator import voice_modulator
 import random
 
 
@@ -16,6 +17,7 @@ app.secret_key = 'my_secret_key'
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
+voice_modulator = voice_modulator()
 
 correct_otp = str(random.randint(100000, 999999))
 
@@ -76,11 +78,6 @@ def index():
     profiles = Employee.query.all()
     return render_template('profiles.html', profiles=profiles)
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
-
 @app.route('/signup2', methods=['POST'])
 def signup2():
     name = request.form.get('name')
@@ -98,6 +95,19 @@ def signup2():
     db.session.commit()
 
     return redirect(url_for('dashboard'))
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+# function to call the voice modulator
+@app.route('/modulate', methods=['POST'])
+def modulate():
+    text = request.form.get('text')
+    voice_modulator.modulate(text)
+    return jsonify({'message': 'success'})
+
+
 
     
 if __name__ == '__main__':
