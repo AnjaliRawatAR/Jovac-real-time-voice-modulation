@@ -78,7 +78,7 @@ def submit():
         # except Exception as e:
         #     print(e)
         #     return f"Email not sent, {e}"
-    
+        return redirect('E:/Anjali/anjali allen/Revoice/templates/index.html')
     else:
          flash('Account doesnt exist or username/password incorrect')
          return render_template('Login.html')
