@@ -7,15 +7,10 @@ import random
 
 app = Flask(__name__)
 
-# configuration of mail 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///employee.db'
 app.secret_key = 'my_secret_key'
-# app.config['MAIL_SERVER']='smtp.gmail.com'
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USERNAME'] = 'dataset.api2023@gmail.com'
-# app.config['MAIL_PASSWORD'] = 'nhvp ytoa obnd aswy'
-# app.config['MAIL_USE_TLS'] = True
-# # app.config['MAIL_USE_SSL'] = False
+
 
 # initialize the database connection
 db = SQLAlchemy(app)
@@ -43,8 +38,6 @@ def login():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
-        # Here, you should add code to verify user credentials
-        # For now, we assume the login is successful
         return redirect(url_for('dashboard'))
     return render_template('Login.html')
 
@@ -72,25 +65,7 @@ def submit():
         session['name'] = employee.name
         session['email'] = employee.email
         session['password'] = employee.password
-        
-        # msg_title = "OTP Verification"
-        # sender ='noreply@app.com'
-
-        # msg = Message(msg_title,sender=sender, recipients = [email] ) 
-        # msg.body = f'Hello {name}! Your OTP is {correct_otp}'
-        # # data = {
-        # # 'app_name' : "virtual_meeting",
-        # # 'title' : "msg_title",
-        # # 'body' : "msg_body",
-        # # }
-
-        # try:
-        #     mail.send(msg)
-        #     return render_template('otp.html')
-        # except Exception as e:
-        #     print(e)
-        #     return f"Email not sent, {e}"
-        return redirect('E:/Anjali/anjali allen/Revoice/templates/index.html')
+        return redirect(url_for('dashboard'))
     else:
          flash('Account doesnt exist or username/password incorrect')
          return render_template('Login.html')
@@ -100,6 +75,10 @@ def submit():
 def index():
     profiles = Employee.query.all()
     return render_template('profiles.html', profiles=profiles)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/signup2', methods=['POST'])
@@ -118,30 +97,8 @@ def signup2():
     db.session.add(profile)
     db.session.commit()
 
-    # #  Send OTP to the user
-    # msg_title = "OTP Verification"
-    # sender ='noreply@app.com'
+    return redirect(url_for('dashboard'))
 
-    # msg = Message(msg_title,sender=sender, recipients = [email] 
-    #            ) 
-    # msg.body = f'Hello {name}! Your OTP is {correct_otp}'
     
-    # try:
-    #     mail.send(msg)
-    #     return render_template('otp.html')
-    # except Exception as e:
-    #     print(e)
-    #     return f"Email not sent, {e}"
-
-# @app.route('/verify', methods=['POST'])
-# def verify():
-#     entered_otp = request.form.get('otp')
-
-#     if entered_otp == correct_otp:
-#         return redirect(url_for('dashboard'))
-#     else:
-#         flash('Invalid OTP. Please try again.')
-#         return render_template('otp.html')
-
 if __name__ == '__main__':
     app.run(debug=True)
