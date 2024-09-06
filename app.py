@@ -36,9 +36,21 @@ class Employee(db.Model):
 @app.route('/')
 def home():
     return render_template('index.html')
+
 @app.route('/login')
 def login():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        # Here, you should add code to verify user credentials
+        # For now, we assume the login is successful
+        return redirect(url_for('dashboard'))
     return render_template('Login.html')
+
+@app.route('/voice-modulator')
+def voice_modulator():
+    return render_template('dashboard.html')
 
 
 @app.route('/logout')
@@ -88,6 +100,7 @@ def submit():
 def index():
     profiles = Employee.query.all()
     return render_template('profiles.html', profiles=profiles)
+
 
 @app.route('/signup2', methods=['POST'])
 def signup2():

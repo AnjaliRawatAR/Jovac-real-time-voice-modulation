@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Template Mo">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <title>Revoice: Voice Modulator</title>
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/templatemo-art-factory.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/owl-carousel.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/custom-modulator.css">
+    <style>
+        /* Navbar Styles */
+header.header-area {
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    background: none; /* Remove any default background */
+    box-shadow: none; /* Remove any default shadow */
+}
+
+/* Navbar links and logo */
+header .logo a, 
+header .nav li a {
+    color: #000; /* Set text color */
+}
+
+header .nav li a:hover {
+    color: #007bff; /* Change text color on hover */
+}
+
+/* Ensure the navbar remains sticky */
+header.header-area {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+body {
+    background-image: url('../static/images/banner-bg.png');
+    background-size: cover; /* Ensure the image covers the entire page */
+    background-repeat: no-repeat; /* Prevent tiling */
+    background-position: center center; /* Center the image */
+    background-attachment: fixed; /* Keep the image fixed during scroll */
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full viewport height */
+}
+    </style>
+</head>
+<body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="#" class="logo">ReVoice</a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{ url_for('home') }}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#about">About</a></li>
+                            <li class="scroll-to-section"><a href="#services">Services</a></li>
+                            <li class="scroll-to-section"><a href="#frequently-question">Frequently Questions</a></li>
+                            <li class="submenu">
+                                <a href="javascript:;">Drop Down</a>
+                                <ul>
+                                    <li><a href="">About Us</a></li>
+                                    <li><a href="">Features</a></li>
+                                    <li><a href="">FAQ's</a></li>
+                                    <li><a href="">Blog</a></li>
+                                    <li><a href="{{ url_for('signup') }}" >Signup</a></li>
+                                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Voice Modulator Area Start ***** -->
+    <br>
+    <br>
+
+    <section class="section" id="voice-modulator">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Voice Modulator Controls</h2>
+                    <form id="modulator-form">
+                        <div class="form-group">
+                            <label for="pitch">Pitch Shift:</label>
+                            <input type="range" id="pitch" name="pitch" min="0.5" max="2.0" step="0.1" value="1.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="reverb">Reverb:</label>
+                            <input type="range" id="reverb" name="reverb" min="0.0" max="1.0" step="0.1" value="0.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="distortion">Distortion:</label>
+                            <input type="range" id="distortion" name="distortion" min="0.0" max="10.0" step="0.1" value="0.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Voice Type:</label>
+                            <select id="voice-type" name="voice">
+                                <option value="normal">Normal</option>
+                                <option value="robot">Robot</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Encryption:</label>
+                            <input type="checkbox" id="encrypt" name="encrypt">
+                        </div>
+                        <button type="button" onclick="controlModulator('start')">Start</button>
+                        <button type="button" onclick="controlModulator('stop')">Stop</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Voice Modulator Area End ***** -->
+
+    <!-- jQuery -->
+    <script src="../static/js/jquery-2.1.0.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <!-- Plugins -->
+    <script src="../static/js/owl-carousel.js"></script>
+    <script src="../static/js/scrollreveal.min.js"></script>
+    <script src="../static/js/waypoints.min.js"></script>
+    <script src="../static/js/jquery.counterup.min.js"></script>
+    <script src="../static/js/imgfix.min.js"></script> 
+    <!-- Global Init -->
+    <script src="../static/js/custom.js"></script>
+    <!-- Custom JS for modulator control -->
+    <script>
+        function controlModulator(action) {
+            var pitch = $('#pitch').val();
+            var reverb = $('#reverb').val();
+            var distortion = $('#distortion').val();
+            var voice = $('#voice-type').val();
+            var encrypt = $('#encrypt').is(':checked') ? 'on' : 'off';
+
+            $.ajax({
+                url: '/modulator/control',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    action: action,
+                    pitch: pitch,
+                    reverb: reverb,
+                    distortion: distortion,
+                    voice: voice,
+                    encrypt: encrypt
+                }),
+                success: function(response) {
+                    console.log('Control action successful:', response);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
