@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
-from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate, migrate
@@ -21,7 +20,6 @@ app.secret_key = 'my_secret_key'
 # initialize the database connection
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
-mail = Mail(app)
 
 
 correct_otp = str(random.randint(100000, 999999))
