@@ -2,30 +2,23 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate, migrate
-from voice_modulator import voice_modulator
+# from voice_modulator import voice_modulator
 import random
-
-
 app = Flask(__name__)
-
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///employee.db'
 app.secret_key = 'my_secret_key'
-
 
 # initialize the database connection
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
-voice_modulator = voice_modulator()
-
-correct_otp = str(random.randint(100000, 999999))
-
 # create db model
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
+    full_name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    phone_number = db.Column(db.String(15), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -37,15 +30,17 @@ def home():
 @app.route('/login')
 def login():
     if request.method == 'POST':
-        name = request.form['name']
         email = request.form['email']
         password = request.form['password']
-        return redirect(url_for('dashboard'))
-    return render_template('Login.html')
-
-@app.route('/voice-modulator')
-def voice_modulator():
-    return render_template('dashboard.html')
+        employee = Employee.query.filter_by(email=email, password=password).first()
+        if employee:
+            session['name'] = employee.name
+            session['email'] = employee.email
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid email or password.')
+            return redirect(url_for('login'))
+    return render_template('login.html')
 
 
 @app.route('/logout')
@@ -70,7 +65,7 @@ def submit():
         return redirect(url_for('dashboard'))
     else:
          flash('Account doesnt exist or username/password incorrect')
-         return render_template('Login.html')
+         return render_template('login.html')
     
     
 @app.route('/profiles')
@@ -80,34 +75,48 @@ def index():
 
 @app.route('/signup2', methods=['POST'])
 def signup2():
-    name = request.form.get('name')
+    full_name = request.form.get('full_name')
+    username = request.form.get('username')
     email = request.form.get('email')
+    phone_number = request.form.get('phone_number')
     password = request.form.get('password')
+    confirm_password = request.form.get('confirm_password')
 
-    existing_employee = Employee.query.filter_by(email=email, password=password).first()
+    if password != confirm_password:
+        flash("Passwords do not match.")
+        return redirect(url_for('signup'))
+
+    existing_employee = Employee.query.filter((Employee.email == email) | (Employee.username == username)).first()
     if existing_employee:
-        flash('Email already exists. Please login.')
-        return render_template('signup.html')
+        flash('Username or email already exists. Please login.')
+        return redirect(url_for('signup'))
 
     # store data into database
-    profile = Employee(name=name, email=email,password=password)
+    profile = Employee(
+        full_name=full_name,
+        username=username,
+        email=email,
+        phone_number=phone_number,
+        password=password  # Consider hashing the password for security
+    )
     db.session.add(profile)
     db.session.commit()
 
+    session['name'] = new_employee.full_name
+    session['username'] = new_employee.username
     return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard')
+
 
 # function to call the voice modulator
-@app.route('/modulate', methods=['POST'])
-def modulate():
-    text = request.form.get('text')
-    voice_modulator.modulate(text)
-    return jsonify({'message': 'success'})
-
-
+# @app.route('/modulate', methods=['POST'])
+# def modulate():
+#     text = request.form.get('text')
+#     voice_modulator.modulate(text)
+#     return jsonify({'message': 'success'})
 
     
 if __name__ == '__main__':

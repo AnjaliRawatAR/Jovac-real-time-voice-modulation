@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="../static/script.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -106,11 +106,11 @@
                                 <input type="submit" value="Submit">
                             </div>
                             <div class="text sign-up-text">Don't have an account? <a
-                                    href="{{ url_for('signup') }}">Signup now</a>
+                                    href="{{url_for('signup')}}">Signup now</a>
                             </div>
                         </div>
                     </form>
-                    {% with messages = get_flashed_messages() %}
+                    <!-- {% with messages = get_flashed_messages() %}
                     {% if messages %}
                     <ul>
                         {% for message in messages %}
@@ -118,7 +118,7 @@
                         {% endfor %}
                     </ul>
                     {% endif %}
-                    {% endwith %}
+                    {% endwith %} -->
                 </div>
             </div>
         </div>

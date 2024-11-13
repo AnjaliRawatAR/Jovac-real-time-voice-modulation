@@ -1,141 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <link rel="stylesheet" href="../static/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="../static/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+    <title>Revoice login</title>
+    <link rel="stylesheet" href="../static/css/signup.css">
     <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/templatemo-art-factory.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/owl-carousel.css">
-    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
-    <style>
-        .header-area.header-sticky {
-            background-color: #3e8e41;
-        }
-        .col-12{
-            background-color: #3e8e41;
-        }
-
-        .main-nav ul.nav li a {
-            color: white;
-        }
-
-        .main-nav ul.nav li a:hover {
-            background-color: darkblue;
-            color: white;
-        }
-
-        .main-nav .logo {
-            color: white;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 </head>
-
 <body>
-    <!-- ***** Header Area Start ***** -->
-<header class="header-area header-sticky">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="#" class="logo">ReVoice</a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                        <li class="scroll-to-section"><a href="#welcome" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#about">About</a></li>
-                        <li class="scroll-to-section"><a href="#services">Services</a></li>
-                        <li class="scroll-to-section"><a href="#frequently-question">Frequently Questions</a></li>
-                        <li class="submenu">
-                            <a href="javascript:;">Drop Down</a>
-                            <ul>
-                                <li><a href="">About Us</a></li>
-                                <li><a href="">Features</a></li>
-                                <li><a href="">FAQ's</a></li>
-                                <li><a href="">Blog</a></li>
-                                <li><a href="/templates/signup.html">Signup</a></li>
-                                <li><a href="/templates/login.html">Login</a></li>
-                            </ul>
-                        </li>
-                        <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
-                    </ul>
-                    <a class='menu-trigger'>
-                        <span>Menu</span>
-                    </a>
-                    <!-- ***** Menu End ***** -->
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- ***** Header Area End ***** -->
-
-    <div class="container">
-        <div class="forms">
-            <div class="form-content">
-                <div class="signup-form">
-                    <div class="title">Signup</div>
-                    <form action="{{ url_for('signup2') }}" id="signupForm" onsubmit="validateForm(event)"
-                        method="post">
-                        <div class="input-boxes">
-                            <div class="input-box">
-                                <i class="fas fa-user"></i>
-                                <input type="text" placeholder="Enter your name" name="name" required>
-                            </div>
-                            <div class="input-box">
-                                <i class="fas fa-envelope"></i>
-                                <input type="text" placeholder="Enter your email" name="email" required>
-                            </div>
-                            <div class="input-box">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" placeholder="Enter your password" name="password" required>
-                            </div>
-                            
-                            <div class="button input-box">
-                                <input type="submit" value="Submit">
-                            </div>
-                            <div class="text sign-up-text">Already have an account? <a href="{{url_for('login')}}">Login
-                                    now</a>
-                            </div>
-                        </div>
-                    </form>
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                        <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                    {% endwith %}
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="#" class="logo">ReVoice</a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{{url_for('home')}}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#about">About</a></li>
+                            <li class="scroll-to-section"><a href="#services">Services</a></li>
+                            <li class="scroll-to-section"><a href="#frequently-question">Frequently Questions</a></li>
+                            <li class="submenu">
+                                <a href="javascript:;">Drop Down</a>
+                                <ul>
+                                    <li><a href="">About Us</a></li>
+                                    <li><a href="">Features</a></li>
+                                    <li><a href="">FAQ's</a></li>
+                                    <li><a href="">Blog</a></li>
+                                    <li><a href="{{url_for('signup')}}" >Signup</a></li>
+                                    <li><a href="{{url_for('login')}}">Login</a></li>
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- jQuery -->
-    <script src="../static/js/jquery-2.1.0.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="../static/js/popper.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-
-    <!-- Plugins -->
-    <script src="../static/js/owl-carousel.js"></script>
-    <script src="../static/js/scrollreveal.min.js"></script>
-    <script src="../static/js/waypoints.min.js"></script>
-    <script src="../static/js/jquery.counterup.min.js"></script>
-    <script src="../static/js/imgfix.min.js"></script> 
+    </header>
+    <main class="contain">
+        <div class="title">Sign up</div>
+        <form action="{{ url_for('signup2') }}" id="signupForm" onsubmit="validateForm(event)"
+        method="post">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Full Name</span>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">UserName</span>
+                    <input type="text" placeholder="Enter your username" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="text" placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Phone Number</span>
+                    <input type="text" placeholder="Enter your number" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Password</span>
+                    <input type="text" placeholder="Enter your Password" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Confirm Password</span>
+                    <input type="text" placeholder="Confirm your Password" required>
+                </div>
+            </div>
+            <div class="gender-details">
+                <input type="radio" name="gender" id="dot-1">
+                <input type="radio" name="gender" id="dot-2">
+                <input type="radio" name="gender" id="dot-3">
+                <span class="gender-title">Gender</span>
+                <div class="category">
+                    <label for="dot-1">
+                        <span class="dot one"></span>
+                        <span class="gender">Male</span>
+                      </label>
+                      <label for="dot-2">
+                        <span class="dot two"></span>
+                        <span class="gender">Female</span>
+                      </label>
+                      <label for="dot-3">
+                        <span class="dot three"></span>
+                        <span class="gender">Prefer not to say</span>
+                      </label>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Sign up">
+            </div>
+        </form>
+    </main>
     
     <!-- Global Init -->
     <script src="../static/js/custom.js"></script>
 </body>
-
 </html>

@@ -6,6 +6,7 @@ from cryptography.fernet import Fernet
 CHUNK = 1024
 CHANNELS = 1
 RATE = 44100
+0.
 
 class VoiceModulator:
     def __init__(self):
