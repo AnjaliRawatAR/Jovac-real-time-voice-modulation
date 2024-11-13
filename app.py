@@ -102,8 +102,8 @@ def signup2():
     db.session.add(profile)
     db.session.commit()
 
-    session['name'] = new_employee.full_name
-    session['username'] = new_employee.username
+    session['name'] = profile.full_name
+    session['username'] = profile.username
     return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
