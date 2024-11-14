@@ -31,7 +31,7 @@
                                     <li><a href="">FAQ's</a></li>
                                     <li><a href="">Blog</a></li>
                                     <li><a href="{{url_for('signup')}}" >Signup</a></li>
-                                    <li><a href="{{url_for('login')}}">Login</a></li>
+                                    <!-- <li><a href="{{url_for('login')}}">Login</a></li> -->
                                 </ul>
                             </li>
                             <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
@@ -97,6 +97,11 @@
             </div>
             <div class="button">
                 <input type="submit" value="Sign up">
+            </div>
+            <div>
+                <p align="center">Already have a account?</p>
+                <br>
+                <center><a href="{{url_for('login')}}">Login</a></center>
             </div>
         </form>
     </main>
