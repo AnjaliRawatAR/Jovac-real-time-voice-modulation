@@ -188,26 +188,26 @@ def dashboard():
     return render_template('dashboard.html')
 
 # Initialize the voice modulator instance
-voice_modulator = VoiceModulator()
+# voice_modulator = VoiceModulator()
 
-@app.route('/modulator/control', methods=['POST'])
-def modulator_control():
-    data = request.get_json()
-    action = data.get("action")
+# @app.route('/modulator/control', methods=['POST'])
+# def modulator_control():
+#     data = request.get_json()
+#     action = data.get("action")
     
-    if action == "start":
-        voice_modulator.start()
-    elif action == "stop":
-        voice_modulator.stop()
-    else:
-        # Adjust effects based on received data
-        voice_modulator.pitch_shift = float(data.get("pitch", 1.0))
-        voice_modulator.reverb = float(data.get("reverb", 0.0))
-        voice_modulator.distortion = float(data.get("distortion", 0.0))
-        voice_modulator.voice_type = data.get("voice", "normal")
-        voice_modulator.is_encrypted = data.get("encrypt", "off") == "on"
+#     if action == "start":
+#         voice_modulator.start()
+#     elif action == "stop":
+#         voice_modulator.stop()
+#     else:
+#         # Adjust effects based on received data
+#         voice_modulator.pitch_shift = float(data.get("pitch", 1.0))
+#         voice_modulator.reverb = float(data.get("reverb", 0.0))
+#         voice_modulator.distortion = float(data.get("distortion", 0.0))
+#         voice_modulator.voice_type = data.get("voice", "normal")
+#         voice_modulator.is_encrypted = data.get("encrypt", "off") == "on"
 
-    return jsonify({"message": "Voice modulator settings updated successfully"})
+#     return jsonify({"message": "Voice modulator settings updated successfully"})
 
     
 if __name__ == '__main__':
