@@ -4,5 +4,3 @@ flask_migrate
 gunicorn
 SQLAlchemy
 jinja2
-numpy
-voice_modulator
