@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from flask_migrate import Migrate, migrate
+from flask_migrate import Migrate
 from voice_modulator import VoiceModulator
 import random
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///employee.db'
 app.secret_key = 'my_secret_key'
@@ -27,14 +29,14 @@ class Employee(db.Model):
 def home():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         employee = Employee.query.filter_by(email=email, password=password).first()
         if employee:
-            session['name'] = employee.name
+            session['name'] = employee.username
             session['email'] = employee.email
             return redirect(url_for('dashboard'))
         else:
@@ -59,7 +61,7 @@ def submit():
     password = request.form.get('password')
     employee = Employee.query.filter_by(email=email, password=password).first()
     if employee:
-        session['name'] = employee.name
+        session['name'] = employee.full_name
         session['email'] = employee.email
         session['password'] = employee.password
         return redirect(url_for('dashboard'))
@@ -110,13 +112,27 @@ def signup2():
 def dashboard():
     return render_template('dashboard')
 
+# Initialize the voice modulator instance
+voice_modulator = VoiceModulator()
 
-# function to call the voice modulator
-# @app.route('/modulate', methods=['POST'])
-# def modulate():
-#     text = request.form.get('text')
-#     voice_modulator.modulate(text)
-#     return jsonify({'message': 'success'})
+@app.route('/modulator/control', methods=['POST'])
+def modulator_control():
+    data = request.get_json()
+    action = data.get("action")
+    
+    if action == "start":
+        voice_modulator.start()
+    elif action == "stop":
+        voice_modulator.stop()
+    else:
+        # Adjust effects based on received data
+        voice_modulator.pitch_shift = float(data.get("pitch", 1.0))
+        voice_modulator.reverb = float(data.get("reverb", 0.0))
+        voice_modulator.distortion = float(data.get("distortion", 0.0))
+        voice_modulator.voice_type = data.get("voice", "normal")
+        voice_modulator.is_encrypted = data.get("encrypt", "off") == "on"
+
+    return jsonify({"message": "Voice modulator settings updated successfully"})
 
     
 if __name__ == '__main__':
