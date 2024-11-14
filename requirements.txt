@@ -1,10 +1,6 @@
 flask
 flask_sqlalchemy
 flask_migrate
-sounddevice
-PortAudio
-scipy
-cryptography.fernet
 gunicorn
 SQLAlchemy
 jinja2
