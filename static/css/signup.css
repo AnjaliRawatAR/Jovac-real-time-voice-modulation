@@ -6,8 +6,8 @@
 html{
     margin: 0;
     box-sizing: border-box;
-    font-family: "Playfair Display", serif;
-    /* font-family: "Roboto", sans-serif; */
+    /* font-family: "Playfair Display", serif; */
+    font-family: "Roboto", sans-serif;
   }
 html .header-area{
     padding-left: 200px;
