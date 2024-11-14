@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 from voice_modulator import VoiceModulator
 import random
+import logging
 
 
 app = Flask(__name__)
@@ -13,6 +14,9 @@ app.secret_key = 'my_secret_key'
 # initialize the database connection
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 
 # create db model
 class Employee(db.Model):
@@ -29,20 +33,30 @@ class Employee(db.Model):
 def home():
     return render_template('index.html')
 
+# esko dekhle
 @app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+    try:
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        logging.debug(f"Login attempt with email: {email}, name: {name}")
+
         employee = Employee.query.filter_by(email=email, password=password).first()
         if employee:
-            session['name'] = employee.username
+            session['name'] = employee.full_name
             session['email'] = employee.email
+            session['password'] = employee.password
+            logging.debug(f"Login successful for email: {email}")
             return redirect(url_for('dashboard'))
         else:
-            flash('Invalid email or password.')
-            return redirect(url_for('login'))
-    return render_template('login.html')
+            flash('Account doesn\'t exist or username/password incorrect')
+            logging.debug(f"Login failed for email: {email}")
+            return render_template('login.html')
+    except Exception as e:
+        logging.error(f"Error during login: {e}")
+        flash('An error occurred during login. Please try again.')
+        return render_template('login.html')
 
 
 @app.route('/logout')
@@ -50,10 +64,12 @@ def logout():
     session.pop('name', None)
     return redirect(url_for('login'))
 
+
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
 
+# esko bhi dekhle
 @app.route('/submit', methods=['POST'])
 def submit():
     email = request.form.get('email')
@@ -68,49 +84,108 @@ def submit():
     else:
          flash('Account doesnt exist or username/password incorrect')
          return render_template('login.html')
-    
-    
+
+
+#  check the db data
 @app.route('/profiles')
 def index():
-    profiles = Employee.query.all()
-    return render_template('profiles.html', profiles=profiles)
+    try:
+        profiles = Employee.query.all()
+        return render_template('profiles.html', profiles=profiles)
+    except Exception as e:
+        logging.error(f"Error fetching profiles: {e}")
+        flash('An error occurred while fetching profiles.')
+        return render_template('profiles.html', profiles=[])
 
+# registration
 @app.route('/signup2', methods=['POST'])
 def signup2():
-    full_name = request.form.get('full_name')
-    username = request.form.get('username')
-    email = request.form.get('email')
-    phone_number = request.form.get('phone_number')
-    password = request.form.get('password')
-    confirm_password = request.form.get('confirm_password')
+    try:
+        # Extract form data
+        full_name = request.form.get('full_name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        phone_number = request.form.get('phone_number')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        
+        logging.debug(f"Signup attempt: full_name={full_name}, email={email}, username={username}")
 
-    if password != confirm_password:
-        flash("Passwords do not match.")
+        # Check if passwords match
+        if password != confirm_password:
+            logging.debug(f"Passwords do not match for email: {email}")
+            flash("Passwords do not match.")
+            return redirect(url_for('signup'))
+
+        # Check if the email or username already exists in the database
+        existing_employee = Employee.query.filter((Employee.email == email) | (Employee.username == username)).first()
+        if existing_employee:
+            logging.debug(f"Username or email already exists for email: {email}, username: {username}")
+            flash('Username or email already exists. Please login.')
+            return redirect(url_for('signup'))
+
+        # Create and store the new employee in the database
+        profile = Employee(
+            full_name=full_name,
+            username=username,
+            email=email,
+            phone_number=phone_number,
+            password=password  # Consider hashing the password for security
+        )
+        db.session.add(profile)
+        db.session.commit()
+        
+        logging.debug(f"Signup successful for email: {email}, username: {username}")
+
+        # Set session variables
+        session['name'] = profile.full_name
+        session['username'] = profile.username
+        session['email'] = profile.email
+        
+        return redirect(url_for('dashboard'))
+    
+    except Exception as e:
+        logging.error(f"Error during signup: {e}")
+        flash('An error occurred during signup. Please try again.')
         return redirect(url_for('signup'))
 
-    existing_employee = Employee.query.filter((Employee.email == email) | (Employee.username == username)).first()
-    if existing_employee:
-        flash('Username or email already exists. Please login.')
-        return redirect(url_for('signup'))
+# validation
+@app.route('/loginbutton', methods=['GET', 'POST'])
+def loginbutton():
+    if request.method == 'POST':
+        try:
+            email = request.form.get('email')
+            password = request.form.get('password')
+            logging.debug(f"Login attempt with email: {email}")
 
-    # store data into database
-    profile = Employee(
-        full_name=full_name,
-        username=username,
-        email=email,
-        phone_number=phone_number,
-        password=password  # Consider hashing the password for security
-    )
-    db.session.add(profile)
-    db.session.commit()
+            # Query the database for a matching employee
+            employee = Employee.query.filter_by(email=email, password=password).first()
 
-    session['name'] = profile.full_name
-    session['username'] = profile.username
-    return redirect(url_for('dashboard'))
+            if employee:
+                # If employee exists and password matches, set session variables
+                session['name'] = employee.full_name
+                session['email'] = employee.email
+                session['password'] = employee.password
+                logging.debug(f"Login successful for email: {email}")
+
+                # Redirect to dashboard or home page after successful login
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Invalid email or password. Please try again.')
+                logging.debug(f"Login failed for email: {email}")
+                return render_template('login.html')
+
+        except Exception as e:
+            logging.error(f"Error during login: {e}")
+            flash('An error occurred during login. Please try again.')
+            return render_template('login.html')
+
+    return render_template('login.html')
+
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard')
+    return render_template('dashboard.html')
 
 # Initialize the voice modulator instance
 voice_modulator = VoiceModulator()

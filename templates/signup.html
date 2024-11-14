@@ -47,34 +47,34 @@
     </header>
     <main class="contain">
         <div class="title">Sign up</div>
-        <form action="{{ url_for('signup2') }}" id="signupForm" onsubmit="validateForm(event)"
-        method="post">
+        <form action="{{ url_for('signup2') }}" id="signupForm" onsubmit="validateForm(event)" method="post">
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Full Name</span>
-                    <input type="text" placeholder="Enter your name" required>
+                    <input type="text" placeholder="Enter your name" name="full_name" required>
                 </div>
                 <div class="input-box">
                     <span class="details">UserName</span>
-                    <input type="text" placeholder="Enter your username" required>
+                    <input type="text" placeholder="Enter your username" name="username" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Email</span>
-                    <input type="text" placeholder="Enter your email" required>
+                    <input type="text" placeholder="Enter your email" name="email" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Phone Number</span>
-                    <input type="text" placeholder="Enter your number" required>
+                    <input type="text" placeholder="Enter your number" name="phone_number" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Password</span>
-                    <input type="password" placeholder="Enter your Password" required>
+                    <input type="password" placeholder="Enter your Password" name="password" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Confirm Password</span>
-                    <input type="password" placeholder="Confirm your Password" required>
+                    <input type="password" placeholder="Confirm your Password" name="confirm_password" required>
                 </div>
             </div>
+
             <div class="gender-details">
                 <input type="radio" name="gender" id="dot-1">
                 <input type="radio" name="gender" id="dot-2">
@@ -84,20 +84,22 @@
                     <label for="dot-1">
                         <span class="dot one"></span>
                         <span class="gender">Male</span>
-                      </label>
-                      <label for="dot-2">
+                    </label>
+                    <label for="dot-2">
                         <span class="dot two"></span>
                         <span class="gender">Female</span>
-                      </label>
-                      <label for="dot-3">
+                    </label>
+                    <label for="dot-3">
                         <span class="dot three"></span>
                         <span class="gender">Prefer not to say</span>
-                      </label>
+                    </label>
                 </div>
             </div>
+
             <div class="button">
                 <input type="submit" value="Sign up">
             </div>
+
             <div>
                 <p align="center">Already have an account?</p>
                 <br>

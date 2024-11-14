@@ -83,27 +83,27 @@
 <!-- ***** Header Area End ***** -->
     <main class="contain">
         <div class="title">Login</div>
-        <form action="{{ url_for('signup2') }}" id="signupForm" onsubmit="validateForm(event)"
-        method="post">
+        <form action="{{ url_for('loginbutton') }}" method="POST">
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Email</span>
-                    <input type="text" placeholder="Enter your email" required>
+                    <input type="text" placeholder="Enter your email" name="email" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Password</span>
-                    <input type="text" placeholder="Enter your Password" required>
+                    <input type="password" placeholder="Enter your Password" name="password" required>
                 </div>
             </div>
             <div class="button">
-                <input type="submit" value="Sign up">
+                <input type="submit" value="Login">
             </div>
             <div>
                 <p align="center">Don't have an account?</p>
                 <br>
-                <center><a href="{{url_for('signup')}}">Signup</a></center>
+                <center><a href="{{ url_for('signup') }}">Signup</a></center>
             </div>
         </form>
+        
     </main>
     <!-- jQuery -->
     <script src="../static/js/jquery-2.1.0.min.js"></script>
