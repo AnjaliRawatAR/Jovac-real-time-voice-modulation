@@ -4,3 +4,6 @@ flask_migrate
 sounddevice
 scipy
 cryptography.fernet
+gunicorn
+SQLAlchemy
+jinja2
