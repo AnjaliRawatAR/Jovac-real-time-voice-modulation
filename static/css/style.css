@@ -192,6 +192,8 @@ button, .preset-button {
     border: 1px solid #bdc3c7;
     margin: 15px 0;
     font-size: 14px;
+    width: 100%;
+    text-align: center;
 }
 
 /* Audio Playback Section */

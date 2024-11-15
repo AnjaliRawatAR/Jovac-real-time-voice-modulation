@@ -58,7 +58,7 @@
             <i class="fa fa-microphone"></i>
         </button>
         <p class="status-message" id="statusMessage">Press the button and start speaking...</p>
-        <div class="output-text" id="outputText"></div>
+        <input type="text" class="output-text" id="outputText" placeholder="Your speech will appear here after processing..." readonly>
         <div class="info-line">
             <i class="fa fa-info-circle"></i>
             <span>Click to record your speech and convert it to text</span>
@@ -171,7 +171,7 @@
                 }
             }
             
-            outputText.textContent = finalTranscript;
+            outputText.value = finalTranscript;
         };
     
         // Handle errors
