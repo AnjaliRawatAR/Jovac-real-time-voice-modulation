@@ -194,9 +194,3 @@ except ImportError:
 
 if __name__ == "__main__":
     modulator = VoiceModulator()
-    try:
-        gui = GUI(modulator)
-        gui.run()
-    except NameError:
-        cli = CLI(modulator)
-        cli.run()
