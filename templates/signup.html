@@ -51,7 +51,7 @@
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Full Name</span>
-                    <input type="text" placeholder="Enter your name" name="full_name" required>
+                    <input type="text" placeholder="Enter your name" name="full_name" minlength="3" required>
                 </div>
                 <div class="input-box">
                     <span class="details">UserName</span>
@@ -109,6 +109,20 @@
     </main>
     
     <!-- Global Init -->
+    <script>
+        function validateForm(event) {
+            // Get the full name input value
+            const fullName = document.getElementsByName('full_name')[0].value.trim();
+        
+            // Check if the full name is at least two characters long
+            if (fullName.length < 3) {
+                event.preventDefault(); // Prevent form submission
+                alert("Full Name must be at least two characters long.");
+                return false;
+            }
+            return true; // Allow form submission
+        }
+        </script>
     <script src="../static/js/custom.js"></script>
 </body>
 </html>

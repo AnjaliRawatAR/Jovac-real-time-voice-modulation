@@ -111,6 +111,12 @@ def signup2():
         
         logging.debug(f"Signup attempt: full_name={full_name}, email={email}, username={username}")
 
+        # Validate full name length
+        if len(full_name) < 2:
+            logging.debug(f"Full name too short: {full_name}")
+            flash("Full Name must be at least two characters long.")
+            return redirect(url_for('signup'))
+
         # Check if passwords match
         if password != confirm_password:
             logging.debug(f"Passwords do not match for email: {email}")
